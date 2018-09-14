@@ -23,7 +23,7 @@ CalendarFX can be found on jcenter / bintray and also on maven central. For mave
 	<dependency>
   		<groupId>com.calendarfx</groupId>
   		<artifactId>view</artifactId>
-  		<version>8.5.0</version>
+  		<version>10.5.0</version>
 	</dependency>
 </dependencies>
 ```
