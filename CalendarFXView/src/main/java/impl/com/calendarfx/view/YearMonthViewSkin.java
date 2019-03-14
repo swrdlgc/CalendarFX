@@ -28,6 +28,7 @@ import java.time.Year;
 import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -363,7 +364,7 @@ public class YearMonthViewSkin extends DateControlSkin<YearMonthView>
         DayOfWeek dayOfWeek = view.getFirstDayOfWeek();
         for (int i = 0; i < 7; i++) {
             dayOfWeekLabels[i] = new Label(
-                    dayOfWeek.getDisplayName(SHORT, Locale.getDefault()));
+                    dayOfWeek.getDisplayName(TextStyle.NARROW, Locale.getDefault()));
             dayOfWeekLabels[i].setAlignment(CENTER);
             dayOfWeekLabels[i].setMaxSize(MAX_VALUE, MAX_VALUE);
             dayOfWeekLabels[i].getStyleClass().add(DAY_OF_WEEK_LABEL);
