@@ -16,19 +16,7 @@
 
 package com.atplatform.calendarfx.model;
 
-import com.calendarfx.model.Interval;
-import com.calendarfx.model.LoadEvent;
-import net.fortuna.ical4j.filter.Filter;
-import net.fortuna.ical4j.filter.PeriodRule;
-import net.fortuna.ical4j.filter.Rule;
-import net.fortuna.ical4j.model.Calendar;
-import net.fortuna.ical4j.model.Component;
-import net.fortuna.ical4j.model.DateTime;
-import net.fortuna.ical4j.model.Period;
-import net.fortuna.ical4j.model.Property;
-import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.RRule;
-import net.fortuna.ical4j.model.property.Uid;
+import static java.util.Objects.requireNonNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -41,7 +29,20 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import static java.util.Objects.requireNonNull;
+import com.calendarfx.model.Interval;
+import com.calendarfx.model.LoadEvent;
+
+import net.fortuna.ical4j.filter.Filter;
+import net.fortuna.ical4j.filter.PeriodRule;
+import net.fortuna.ical4j.filter.Rule;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.Component;
+import net.fortuna.ical4j.model.DateTime;
+import net.fortuna.ical4j.model.Period;
+import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.RRule;
+import net.fortuna.ical4j.model.property.Uid;
 
 public class ATPCalendar extends com.calendarfx.model.Calendar {
 
@@ -58,11 +59,17 @@ public class ATPCalendar extends com.calendarfx.model.Calendar {
 
         this.calendar = calendar;
 
-        load(Year.now().getValue());
+        load();
     }
 
     public void load(LoadEvent event) {
-        load(event.getStartTime().getYear());
+        load();
+    }
+    
+    private void load() {
+    	for(int year = 2000; year < 2100; ++year) {
+    		load(year);
+    	}
     }
 
     /*
@@ -75,8 +82,8 @@ public class ATPCalendar extends com.calendarfx.model.Calendar {
 
         alreadyLoadedYears.add(year);
 
-        ZonedDateTime st = ZonedDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfYear()), LocalTime.MIN, ZoneId.systemDefault());
-        ZonedDateTime et = ZonedDateTime.of(LocalDate.now().with(TemporalAdjusters.lastDayOfYear()), LocalTime.MAX, ZoneId.systemDefault());
+        ZonedDateTime st = ZonedDateTime.of(LocalDate.ofYearDay(year, 1), LocalTime.MIN, ZoneId.systemDefault());
+        ZonedDateTime et = ZonedDateTime.of(LocalDate.ofYearDay(year, Year.isLeap(year) ? 366 : 365), LocalTime.MAX, ZoneId.systemDefault());
 
         try {
             startBatchUpdates();
