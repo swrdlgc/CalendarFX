@@ -48,6 +48,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.control.Tooltip;
 import javafx.util.Callback;
 
 import java.text.MessageFormat;
@@ -59,6 +60,7 @@ import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.WeekFields;
@@ -583,12 +585,13 @@ public class MonthViewSkin extends DateControlSkin<MonthView> implements LoadDat
         }
     }
 
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
     class MonthDayEntriesPane extends Pane {
-
         private static final String MONTH_DAY_MORE_LABEL = "more-label"; //$NON-NLS-1$
         private static final String SPACE = " ";
 
         private Label moreLabel;
+        private Tooltip tooltip;
         private LocalDate date;
         private int week;
         private int day;
@@ -614,6 +617,9 @@ public class MonthViewSkin extends DateControlSkin<MonthView> implements LoadDat
             moreLabel.getStyleClass().add(MONTH_DAY_MORE_LABEL);
             moreLabel.setManaged(false);
             moreLabel.setVisible(false);
+            
+            tooltip = new Tooltip();
+            moreLabel.setTooltip(tooltip);
 
             if (getSkinnable().isEnableHyperlinks()) {
                 moreLabel.getStyleClass().add("date-hyperlink");
@@ -640,6 +646,7 @@ public class MonthViewSkin extends DateControlSkin<MonthView> implements LoadDat
 
                 int maxPosition = -1;
 
+                StringBuilder sb = new StringBuilder();
                 for (Entry<?> entry : entries) {
                     Objects.requireNonNull(entry, "found NULL calendar entry in entry list");
                     if (entry.isFullDay() || entry.isMultiDay()) {
@@ -648,7 +655,12 @@ public class MonthViewSkin extends DateControlSkin<MonthView> implements LoadDat
                     } else {
                         otherEntries.add(entry);
                     }
+                    sb.append(formatter.format(entry.getStartTime()))
+                      .append(" to ")
+                      .append(formatter.format(entry.getEndTime()))
+                      .append('\n');
                 }
+                tooltip.setText(sb.toString());
 
                 if (maxPosition > -1) {
                     Node[] fullDayNodes = new Node[maxPosition + 1];
@@ -693,6 +705,7 @@ public class MonthViewSkin extends DateControlSkin<MonthView> implements LoadDat
             view.getProperties().put("control", getSkinnable()); //$NON-NLS-1$
             view.getProperties().put("startDate", date); //$NON-NLS-1$
             view.getProperties().put("endDate", date); //$NON-NLS-1$
+            view.setTooltip(tooltip);
 
             Position position = Position.ONLY;
 
