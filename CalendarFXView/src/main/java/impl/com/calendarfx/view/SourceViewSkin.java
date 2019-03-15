@@ -21,6 +21,8 @@ import com.calendarfx.model.CalendarSource;
 import com.calendarfx.view.SourceView;
 import javafx.beans.InvalidationListener;
 import javafx.beans.binding.Bindings;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.SkinBase;
 import javafx.scene.control.TitledPane;
@@ -30,6 +32,7 @@ import javafx.scene.layout.VBox;
 public class SourceViewSkin extends SkinBase<SourceView> {
 
     private VBox vbox;
+    private CheckBox selectedCheckBox;
 
     private final InvalidationListener updater = obs -> updateView();
 
@@ -55,11 +58,24 @@ public class SourceViewSkin extends SkinBase<SourceView> {
             box.getStyleClass().add("single-calendar-group");
 
             for (Calendar calendar : source.getCalendars()) {
-                CheckBox checkBox = new CheckBox();
+                final CheckBox checkBox = new CheckBox();
+                checkBox.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						if(selectedCheckBox != null && selectedCheckBox.isSelected()) {
+							selectedCheckBox.setSelected(false);
+							selectedCheckBox = null;
+						}
+						if(checkBox.isSelected()) {
+							selectedCheckBox = checkBox;
+						}
+					}
+				});
                 checkBox.textProperty().bind(calendar.nameProperty());
                 checkBox.getStyleClass().addAll("default-style-visibility-checkbox",//$NON-NLS-1$
                         calendar.getStyle() + "-visibility-checkbox"); //$NON-NLS-1$
                 Bindings.bindBidirectional(checkBox.selectedProperty(), getSkinnable().getCalendarVisibilityProperty(calendar));
+                checkBox.setSelected(false);
                 box.getChildren().add(checkBox);
             }
 

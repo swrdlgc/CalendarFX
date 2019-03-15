@@ -435,7 +435,7 @@ public abstract class DateControl extends CalendarFXControl {
     }
 
     public final BooleanProperty getCalendarVisibilityProperty(Calendar calendar) {
-        return calendarVisibilityMap.computeIfAbsent(calendar, cal -> new SimpleBooleanProperty(DateControl.this, "visible", true));
+        return calendarVisibilityMap.computeIfAbsent(calendar, cal -> new SimpleBooleanProperty(DateControl.this, "visible", false));
     }
 
     public final boolean isCalendarVisible(Calendar calendar) {

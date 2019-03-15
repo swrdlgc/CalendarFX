@@ -63,8 +63,7 @@ public class SourceView extends CalendarFXControl {
         Bindings.unbindContentBidirectional(calendarVisibilityMap, dateControl.getCalendarVisibilityMap());
     }
 
-    private final ObservableList<CalendarSource> calendarSources = FXCollections
-            .observableArrayList();
+    private final ObservableList<CalendarSource> calendarSources = FXCollections.observableArrayList();
 
     /**
      * The list of calendar sources shown by the view.
@@ -82,7 +81,7 @@ public class SourceView extends CalendarFXControl {
     }
 
     public final BooleanProperty getCalendarVisibilityProperty(Calendar calendar) {
-        return calendarVisibilityMap.computeIfAbsent(calendar, cal -> new SimpleBooleanProperty(SourceView.this, "visible", true));
+        return calendarVisibilityMap.computeIfAbsent(calendar, cal -> new SimpleBooleanProperty(SourceView.this, "visible", false));
     }
 
     public final boolean isCalendarVisible(Calendar calendar) {
