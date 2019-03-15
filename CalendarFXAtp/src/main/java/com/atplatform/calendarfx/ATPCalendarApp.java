@@ -43,7 +43,7 @@ public class ATPCalendarApp extends Application {
 
     private static final ExecutorService executor = Executors
             .newCachedThreadPool(runnable -> {
-                Thread thread = new Thread(runnable, "ICalCalendar Load Thread");
+                Thread thread = new Thread(runnable, "ATPCalendar Load Thread");
                 thread.setDaemon(true);
                 thread.setPriority(Thread.MIN_PRIORITY);
                 return thread;
@@ -135,7 +135,7 @@ public class ATPCalendarApp extends Application {
 
         Scene scene = new Scene(calendarView);
 
-        primaryStage.setTitle("iCalendar");
+        primaryStage.setTitle("ATPCalendar");
         primaryStage.setScene(scene);
         primaryStage.setWidth(1400);
         primaryStage.setHeight(1000);
