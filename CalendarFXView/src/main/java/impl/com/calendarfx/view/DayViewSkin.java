@@ -30,6 +30,7 @@ import impl.com.calendarfx.view.util.Placement;
 import impl.com.calendarfx.view.util.Resolver;
 import javafx.animation.FadeTransition;
 import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.WeakInvalidationListener;
 import javafx.scene.Node;
 import javafx.scene.control.Control;
@@ -143,8 +144,22 @@ public class DayViewSkin<T extends DayView> extends DayViewBaseSkin<T> implement
         view.earlyLateHoursStrategyProperty().addListener(styleLinesListener);
 
         loadData("initial data loading");
+        
+        listenToCalendars();
+        view.getCalendars().addListener((Observable observable) -> listenToCalendars());
     }
+    
+    private InvalidationListener calendarVisibilityChanged = it -> loadData("calendar visibility changed");
 
+    private WeakInvalidationListener weakCalendarVisibilityChanged = new WeakInvalidationListener(calendarVisibilityChanged);
+
+    private void listenToCalendars() {
+        for (Calendar c : getSkinnable().getCalendars()) {
+            getSkinnable().getCalendarVisibilityProperty(c)
+                    .addListener(weakCalendarVisibilityChanged);
+        }
+    }
+    
     @Override
     protected void calendarVisibilityChanged() {
         getSkinnable().requestLayout();
