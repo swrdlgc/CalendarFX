@@ -176,7 +176,7 @@ public class DayEntryViewSkin extends SkinBase<DayEntryView> {
     protected void updateLabels() {
         Entry<?> entry = getEntry();
 
-        startTimeLabel.setText(formatTime(entry.getStartTime()));
+        startTimeLabel.setText(formatTime(entry.getStartTime()) +" to " + formatTime(entry.getEndTime()));
         titleLabel.setText(formatTitle(entry.getTitle()));
     }
 

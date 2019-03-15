@@ -241,8 +241,8 @@ public class MonthEntryViewSkin extends SkinBase<MonthEntryView> {
                     break;
                 }
             } else {
-                timeLabel.setText(
-                        getDateTimeFormatter().format(entry.getStartTime()));
+                timeLabel.setText(getDateTimeFormatter().format(entry.getStartTime()) 
+                		+ " to " + getDateTimeFormatter().format(entry.getEndTime()));
             }
         }
     }
