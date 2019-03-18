@@ -53,5 +53,43 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
+
+	<!-- mvn install:install-file -Dfile="/Library/Java/JavaVirtualMachines/jdk1.8.0_171.jdk/Contents/Home/jre/lib/ext/jfxrt.jar" 
+		-DgroupId=com.oracle.javafx -DartifactId=javafx -Dversion=2.2 -Dpackaging=jar -->
+		<dependency>
+			<groupId>com.oracle.javafx</groupId>
+			<artifactId>javafx</artifactId>
+			<version>2.2</version>
+		</dependency> 
 	</dependencies>
+	
+	<build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <finalName>atp-cal-demo</finalName>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.atplatform.calendarfx.ATPCalendarAppLauncher</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-samples</id> <!-- this is used for inheritance merges -->
+                        <phase>package</phase> <!-- bind to the packaging phase -->
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
