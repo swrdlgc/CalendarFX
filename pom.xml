@@ -43,6 +43,7 @@
         <module>CalendarFXGoogle</module>
         <module>CalendarFXApp</module>
         <module>CalendarFXiCal</module>
+        <module>CalendarFXAtp</module>
         <module>CalendarFXWeather</module>
         <module>CalendarFXAssembly</module>
     </modules>
